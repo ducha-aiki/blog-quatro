@@ -1,0 +1,19 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://x.com/ducha_aiki
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/dmytromishkin/
+    - icon: github
+      text: Github
+      href: https://github.com/ducha-aiki
+
+---
+
+Dmytro Mishkin's blog. 
