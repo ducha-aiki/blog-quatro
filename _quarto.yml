@@ -3,6 +3,7 @@ project:
   output-dir: docs
 
 website:
+  google-analytics: "G-Y4BPJM0CQX"
   title: "Dmytro's Blog"
   navbar:
     right:
