@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet.">
 
 <title>Dmytro’s Blog</title>
 <style>
@@ -30,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./images/favicon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-listing/list.min.js"></script>
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -138,6 +140,17 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="styles.css">
+<link rel="alternate" type="application/rss+xml" title="Dmytro's Blog" href="index.xml" data-external="1"><meta property="og:title" content="Dmytro’s Blog">
+<meta property="og:description" content="Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet.">
+<meta property="og:image" content="https://blog.dmytro.ai/profile.jpg">
+<meta property="og:site_name" content="Dmytro's Blog">
+<meta name="twitter:title" content="Dmytro’s Blog">
+<meta name="twitter:description" content="Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet.">
+<meta name="twitter:image" content="https://blog.dmytro.ai/profile.jpg">
+<meta name="twitter:creator" content="@ducha_aiki">
+<meta name="twitter:site" content="@ducha_aiki">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://blog.dmytro.ai/">
 </head>
 
 <body class="nav-fixed">
@@ -161,6 +174,10 @@ window.Quarto = {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://dmytro.ai"> 
+<span class="menu-text">dmytro.ai</span></a>
+  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/ducha-aiki"> <i class="bi bi-github" role="img">
 </i> 
@@ -168,6 +185,11 @@ window.Quarto = {
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://x.com/ducha_aiki"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -179,7 +201,29 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">Dmytro’s Blog</h1>
+            <p class="subtitle lead">Computer vision, image matching, deep learning, and academic life</p>
+                  <div>
+        <div class="description">
+          Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet.
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page-left">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -187,6 +231,7 @@ window.Quarto = {
     <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="QUk=">AI <span class="quarto-category-count">(3)</span></div><div class="category" data-category="YXJYaXY=">arXiv <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29tcHV0ZXIlMjB2aXNpb24=">computer vision <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cHJlcHJpbnRz">preprints <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cmVzZWFyY2g=">research <span class="quarto-category-count">(4)</span></div><div class="category" data-category="c29mdHdhcmU=">software <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGVhY2hpbmc=">teaching <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
 
 
 
@@ -236,7 +281,7 @@ Aug 12, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Y29tcHV0ZXIlMjB2aXNpb24lMkNyZXNlYXJjaCUyQ3RlYWNoaW5nJTJDQUk=" data-listing-date-sort="1766444400000" data-listing-file-modified-sort="1786551914070" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="729">
+<div class="quarto-post image-right" data-index="1" data-categories="Y29tcHV0ZXIlMjB2aXNpb24lMkNyZXNlYXJjaCUyQ3RlYWNoaW5nJTJDQUk=" data-listing-date-sort="1766444400000" data-listing-file-modified-sort="1787321412755" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="729">
 <div class="thumbnail">
 <p><a href="./posts/2025-12-23-Beer-or-trdelnik-data-tale.html" class="no-external"></a></p><a href="./posts/2025-12-23-Beer-or-trdelnik-data-tale.html" class="no-external">
 <p><img loading="lazy" src="./posts/images/beer-trdelnik.jpg" class="thumbnail-image"></p>
@@ -275,7 +320,7 @@ Dec 23, 2025
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="Y29tcHV0ZXIlMjB2aXNpb24lMkNyZXNlYXJjaCUyQ3RlYWNoaW5nJTJDQUk=" data-listing-date-sort="1758060000000" data-listing-file-modified-sort="1766521270114" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1379">
+<div class="quarto-post image-right" data-index="2" data-categories="Y29tcHV0ZXIlMjB2aXNpb24lMkNyZXNlYXJjaCUyQ3RlYWNoaW5nJTJDQUk=" data-listing-date-sort="1758060000000" data-listing-file-modified-sort="1787321426183" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1379">
 <div class="thumbnail">
 <p><a href="./posts/2025-09-17-chatGPT-as-a-student.html" class="no-external"></a></p><a href="./posts/2025-09-17-chatGPT-as-a-student.html" class="no-external">
 <p><img loading="lazy" src="./posts/images/sift-gpt.jpg" class="thumbnail-image"></p>
@@ -283,7 +328,7 @@ Dec 23, 2025
 </div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./posts/2025-09-17-chatGPT-as-a-student.html" class="no-external">How ChatGPT fare in computer vision course homeworks at CTU in Prague.</a>
+<a href="./posts/2025-09-17-chatGPT-as-a-student.html" class="no-external">How ChatGPT fared in computer vision course homeworks at CTU in Prague</a>
 </h3>
 <div class="listing-subtitle">
 <a href="./posts/2025-09-17-chatGPT-as-a-student.html" class="no-external"></a>
@@ -445,7 +490,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/blog\.dmytro\.ai");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

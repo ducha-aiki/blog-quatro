@@ -32,6 +32,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../images/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -80,6 +81,17 @@ gtag('config', 'G-Y4BPJM0CQX', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="How I cope with the flood of arXiv papers – Dmytro’s Blog">
+<meta property="og:description" content="hope, that it could help you as well">
+<meta property="og:image" content="https://blog.dmytro.ai/posts/images/arxiv-sanity-small.jpg">
+<meta property="og:site_name" content="Dmytro's Blog">
+<meta name="twitter:title" content="How I cope with the flood of arXiv papers – Dmytro’s Blog">
+<meta name="twitter:description" content="hope, that it could help you as well">
+<meta name="twitter:image" content="https://blog.dmytro.ai/posts/images/arxiv-sanity-small.jpg">
+<meta name="twitter:creator" content="@ducha_aiki">
+<meta name="twitter:site" content="@ducha_aiki">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://blog.dmytro.ai/posts/2021-02-18-how-i-read-arxiv.html">
 </head>
 
 <body class="nav-fixed">
@@ -103,6 +115,10 @@ gtag('config', 'G-Y4BPJM0CQX', { 'anonymize_ip': true});
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://dmytro.ai"> 
+<span class="menu-text">dmytro.ai</span></a>
+  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/ducha-aiki"> <i class="bi bi-github" role="img">
 </i> 
@@ -110,6 +126,11 @@ gtag('config', 'G-Y4BPJM0CQX', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://x.com/ducha_aiki"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -341,7 +362,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/blog\.dmytro\.ai");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

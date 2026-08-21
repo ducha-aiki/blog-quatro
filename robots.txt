@@ -1,0 +1,6 @@
+# https://blog.dmytro.ai
+# All crawlers, including AI/LLM crawlers, are welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://blog.dmytro.ai/sitemap.xml

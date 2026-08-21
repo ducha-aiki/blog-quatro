@@ -1,5 +1,6 @@
 ---
 title: "About"
+description: "Dmytro Mishkin, PhD — computer vision researcher and consultant, Kornia maintainer, author of HardNet, AffNet and LSUV initialization."
 image: profile.jpg
 about:
   template: jolla
@@ -13,7 +14,29 @@ about:
     - icon: github
       text: Github
       href: https://github.com/ducha-aiki
-
+    - icon: globe
+      text: dmytro.ai
+      href: https://dmytro.ai
 ---
 
-Dmytro Mishkin's blog. 
+I am **Dmytro Mishkin**, a computer vision researcher and consultant based in Prague.
+
+I did my PhD at [CTU in Prague](https://fel.cvut.cz/en) under the supervision of Prof. Jiri
+Matas, on wide multiple baseline stereo and local features — the workhorse of 3D
+reconstruction, SLAM and image retrieval. The thesis received the Dean's Prize and the
+Rector's Prize, and reached the final of the Antonín Svoboda Award for the Best PhD Thesis.
+
+I maintain the open source [Kornia](https://github.com/kornia/kornia) library, and I am a
+co-author of [HardNet](https://github.com/DagnyT/hardnet),
+[AffNet](https://github.com/ducha-aiki/affnet),
+[LSUV initialization](https://arxiv.org/abs/1511.06422),
+[MODS](https://github.com/ducha-aiki/mods) and the
+[Image Matching Challenge](https://vision.uvic.ca/image-matching-challenge/).
+I co-founded the [Eastern European Computer Vision Conference](https://eecvc.com/) and the
+Ukrainian research group Szkocka, and I serve
+on the Expert Committee on Artificial Intelligence at the Ministry of Digital Transformation
+of Ukraine.
+
+This blog is where I write about computer vision, image matching, how research actually gets
+done, and what AI is doing to the way we work. My full CV, publication list and talks live at
+[dmytro.ai](https://dmytro.ai).
