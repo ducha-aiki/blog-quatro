@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Dmytro&#39;s Blog</title>
+<link>https://blog.dmytro.ai/</link>
+<atom:link href="https://blog.dmytro.ai/index.xml" rel="self" type="application/rss+xml"/>
+<description>Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet.</description>
+<image>
+<url>https://blog.dmytro.ai/profile.jpg</url>
+<title>Dmytro&#39;s Blog</title>
+<link>https://blog.dmytro.ai/</link>
+</image>
+<generator>quarto-1.6.39</generator>
+<lastBuildDate>Tue, 11 Aug 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>AI: Enabling, Productivity and Mental Health</title>
+  <link>https://blog.dmytro.ai/posts/2026-08-12-ai-enablement-productivity-mental-health.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>There is a difference between feeling productive and actually producing something.</p>
+<p>There is even bigger difference between producing something, and producing something useful. And on the orthogonal axis, there is a work which squeezes you like a lemon, and the one, which makes you happy.</p>
+<p>I’d like to share my journey with AI, covering work at company – as much as I can talk, work at university and personal use, hoping it could be useful for you.</p>
+<p>Disclaimer first - my work is mostly computer vision R&amp;D, including training deep learning models, assembling them into pipelines, data cleaning and occasional demo-ing. I don’t do backend or frontend.</p>
+<section id="stackoverflow-on-steroids" class="level2">
+<h2 class="anchored" data-anchor-id="stackoverflow-on-steroids">StackOverflow on steroids</h2>
+<p>Like many others, I started with ChatGPT web usage, somewhere in 2023 with questions like “How do I create 3d Line plot with plotly?”</p>
+<p>That helped me a lot - I am not good in interactive demos and web-stuff even though I constantly use them for the work. Yet, I could not call this transformative or improving my productivity — all those things I still could solve on my own and not that much slower. Yes, my demos would be uglier, yes, more time for debugging, but nothing dramatic.</p>
+</section>
+<section id="demos-boilerplate-and-constant-fixing" class="level2">
+<h2 class="anchored" data-anchor-id="demos-boilerplate-and-constant-fixing">Demos, boilerplate and constant fixing</h2>
+<p>The first “enablement” feeling soon after - I needed to make iPhone capture app for some demo.</p>
+<p>ChatGPT not only created some code for me — that I could do via copy-pasting from tutorials, but found the problem with tutorial I was following: my XCode version was different, and the menu items have changed their location. The process was still painful, but at least I had a good helper.</p>
+<p>2024 was kind of the same — occasional questions, debugging, maybe code optimization. All good, but I had to manually copy/paste, fix mistakes, etc. It was still kind of small extension, which still felt good. Nothing to write home about.</p>
+<p>Then Cursor came. You don’t need to copy-paste anything anymore, although highlighting context for the question/task was super important. The brightest experience was the work on our <a href="https://arxiv.org/abs/2503.08208?">ICCV 2025 paper about wireframe metrics</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blog.dmytro.ai/posts/images/ai-enablement/wireframe-ranking.png" class="img-fluid figure-img"></p>
+<figcaption>Explaining Human Preferences via Metrics for Structured 3D Reconstruction. ICCV 2025</figcaption>
+</figure>
+</div>
+<p>The paper idea was to ask modelers which roof wireframes look closer to the ground truth and then run bunch of metrics to figure out, which of them are aligned with human judgement the most. This required to implement many metrics from scratch, which was done with help of Claude. This was an enormous work, but unfortunately, there were issues.</p>
+<p>First, the Claude-2024 written tests were mostly smoke or useless. Second, there were mistakes in implementation, uncaught by the tests. Finally, the implementation was prohibitively slow for the quick iteration.</p>
+<p>We have used AI to solve it - in a very precise direct fashion. First, the numerical, hand-derived unit-tests. Second, fix/optimize every function separately, focused. It faster than doing it by hand, but required a lot of focus. Each attempt to let the AI alone to “fix the problem” was a failure.</p>
+<p>Next thing, which delivered a different experience, was Collada DAE parsing optimization for my custom 3D format convertor. Collada DAE is 3D asset format – &nbsp;a simple XML, easily openable by Blender and Apple Preview (until the last MacOS update, at least). There is also an official pycollada python library to parse it.</p>
+<p>But the parsing it is not that fast. The good thing — pycollada is open source library, we can optimize it and make a PR into upstream. That’s the first time agents in autonomous loop were working well. There is also no problem with unit-tests — pycollada already provides them, as well a reference implementation.</p>
+<p>The profiling and optimization turned out harder than I expected - the model and agents relied on its prior knowledge of the library and its weak spots, so tried to optimize the same things over and over again. It also over-used profiler and under-used simple tools like timeit. In the end of the day, the following solution worked out well: I did the global profiling, and made decisions about which hot spot to optimize, and the model focused on the narrow optimization sprints. We delivered 20% speed-up for typical 3D model DAE files parsing and ~50% speed-up for low-poly ones. PRs: <a href="https://github.com/pycollada/pycollada/pull/159">1</a>, <a href="https://github.com/pycollada/pycollada/pull/160">2</a></p>
+<p>What I have forgot to mention, that so far all those experience came with the sense of accomplishment and satisfaction. I did high level planning and decision making, low-level coding, and used AI to help with unknown parts for me, like implementing things in new languages, doing parsing work (I HATE this part of working with data), etc.</p>
+<p>The handling parsing was probably the most enabling thing so far for me. I wouldn’t dare to write a format convertor on my own - not because I am not capable of - but because I would be making tons of mistakes and most importantly bored to death.</p>
+</section>
+<section id="sinister-superpowers" class="level2">
+<h2 class="anchored" data-anchor-id="sinister-superpowers">Sinister Superpowers</h2>
+<p>The next step was Claude Code + superpowers — kudos to Manlio for introducing me to them. With help of them, the development of my supporting libraries and models was faster than I ever could do on my own and more robust — the number of tests were enormous.</p>
+<p>Claude Code + superpowers helped me to write some custom software from scratch – think about the <a href="https://cmp.felk.cvut.cz/~mishkdmy/slides/VibesacICCV2025.pdf">vibesac I did for ICCV talk</a>, but 10x more complex. That was enormous project, which also required a lot of trial and error, mostly in prompting and formulating what to explore. While Opus was clever enough to implement cool stuff, speed-up directions it explored often were pretty wrong. What helped, is to ask it to impersonate John Carmack, and that was a breakthrough in speed. I also used ChatGPT to balance out Claude occasional blindness.</p>
+<p>I also started to give it images as debugging tool - like “see that image, it should have this thing on the left, not on the right”.</p>
+<p>That was next enabling moment - now I could tackle hard technical tasks, not just boring to death tasks. Thanks to the said software from above, right now my flagship model is better, than two specialized sota models. It was also time, I started to pay for Claude for personal usage — for the Claude Code — in additional to ChatGPT. I started to implement one research idea with help of it.</p>
+<p>The development went well, so did my productivity. My mental health - not so much.</p>
+<p>The idea of “iterate on the spec, then hand-off to the agents” never worked to me — long sessions usually meant wasted time and tokens. I had to baby-sit ideas and experiments, answering new questions - on the 10-20 min basis. That is long enough to be distracted, but not long enough to do something else meaningfully. I tried to work on something in parallel - even more exhausting. I played bullet check in the waiting time - I lost 250 rating points.</p>
+<p>While the code and feature grew, I didn’t have any sense of accomplishment — only emptiness. I was not able to keep up with arXiv papers - my brain was completely drained. Morning sessions to read were fine — but only when I started my day with the papers, not code. Doing code by hand was not an option either - I am really not good at low level numba/C code. Distractions like working on CVPR S23DR Challenge were weird. On the one hand, they helped with sense of accomplishment and some work done manually. Being able to deliver something in a short term, while main work things were cooking, also helped. But on the other hand, that meant EVEN MORE context switches, more tasks to keep in mind.</p>
+<p>Remember that research idea on the personal side? I dropped it, tired of baby-sitting.</p>
+<p>I was counting on vacation to breathe.</p>
+</section>
+<section id="light-again" class="level2">
+<h2 class="anchored" data-anchor-id="light-again">Light again?</h2>
+<p>Vacation helped, but was that for a long? Fortunately, something else happened as well — Fable was un-banned by US government. That is the model I was using almost exclusively last several weeks, and that was a game changer.</p>
+<p>First and foremost it was able to work on their own. If previous models were like dogs now, the Fable was like dogs 300 years ago:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blog.dmytro.ai/posts/images/ai-enablement/dogs-300-years-ago.png" class="img-fluid figure-img"></p>
+<figcaption>Dogs 300 years ago vs.&nbsp;dogs now.</figcaption>
+</figure>
+</div>
+<p>To give you few examples:</p>
+<ul>
+<li><p>while the my model was training using specific branch of one python library, I forgot about that and started to work on another feature in the same dir. Fable caught the problem with training, understood the cause, and MADE ANOTHER LIBRARY CLONE TO SUPPORT THE TRAINING. All those unprompted.</p></li>
+<li><p>when I asked it to release the next model version to the internal repo with benchmark and compare to previous best, it figured out the dataset on its own, checked if there is any overlap between test and training set for all models, adapted the evaluation scripts for all models including some recent CVPR stuff (absolutely different from my model in output format), made nice table and uploaded.</p></li>
+<li><p>during a brainstorm, it recognized a licensing constraint — we needed to inference on data we couldn’t train on — found 27 open-license alternative sources, ran the filtering, and assembled a training dataset.</p></li>
+</ul>
+<p>Basically, that was the first time, I could genuinely focus on the high-level task, delve into details myself only when it is really needed. I started to read papers again. I am paying for Claude Max for personal use and we are doing kornia audit and overhaul right now.</p>
+<p>I started to scope more impactful and ambitious work than any time before, and genuinely excited about it. I still feel mental tiredness after the day of work, but now it is the kind of “I was playing chess whole day”, not “I was watching reels whole day” kind of tiredness.</p>
+<p>Finally, I feel that AI is a force multiplier, not “small addition”, or “eating my brain”.</p>
+<p>To achieve that, besides the Fable itself required to change how I am thinking about the task, how much context I give, and which context I do NOT give to not bias the model first. For example, previous experiments results – models trust them too much, if the info comes from the user. If it comes from the journal log from itself, model can spot problems with them and propose new, cleaner, hypothesis. On the other hand, having practical computer vision knowledge still helps to judge ideas better. And - more importantly - to quickly understand when something is going wrong.</p>
+<p>To trust the model, and to learn where I cannot trust it. The model is great at designing inspection tools and metrics – better, than I am. Images, on the other hand, are still the weak point. Recently Fable told me that new algorithm helps, judging from the images and metric. It was not - it was making everything worse. Nor can you trust it without full review. Kornia audit - a <a href="https://github.com/kornia/kornia/pull/3924">small PR of documenting the conventions</a> (and <a href="https://github.com/kornia/kornia/pull/3942">another one</a> ) - took seven review waves from 5.6 Sol and another Fable 5 instance until the convergence – all of that with green CI throughout.</p>
+<p>Also, the new worry came - I am probably over-spending my token limit. Should I try to cut? Mindfully select the model? I tried to work the same high-level way with Opus 5 – it was terrible. Opus 5 twice hit 1M context limit and had to compact the conversation – without finishing the work. Fable did the same task with 500K tokens or so. Going back to the Sonnet-on-Superpowers time? Hell, no. So my hope is to prove that the impact worth the cost. But that is a good problem to have.</p>
+<p>The daylight is bright again, and I may not only work, but also plan, think and dream. Will see how it goes.</p>
+<p><em>Thanks to Olya, Anastasiia and Ian for the feedback on first drafts of the post.</em></p>
+
+
+</section>
+
+ ]]></description>
+  <category>computer vision</category>
+  <category>research</category>
+  <category>software</category>
+  <category>AI</category>
+  <guid>https://blog.dmytro.ai/posts/2026-08-12-ai-enablement-productivity-mental-health.html</guid>
+  <pubDate>Tue, 11 Aug 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://blog.dmytro.ai/posts/images/ai-productivity-mental-health.png" medium="image" type="image/png" height="103" width="144"/>
+</item>
+<item>
+  <title>Beer or Trdelnik or The Tale of Data in Computer Vision</title>
+  <link>https://blog.dmytro.ai/posts/2025-12-23-Beer-or-trdelnik-data-tale.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="some-fun-to-do-in-summer-school" class="level1">
+<h1>Some fun to do in summer school?</h1>
+<p>What would a good assignment for the summer school in computer vision? That was the question I suddenly got puzzled with, because of the last minute replacement for another teacher I agreed to do for the <a href="https://cmp.felk.cvut.cz/summerschool2022">Vision and Sports School 2022 in Prague</a>.</p>
+<p>What would I like to get as a student? Something fun, probably related to the computer vision, but not your typical homework or coursework. Something light enough to have fun, but kind of useful. Something with a take-home message, but learned in personal experience, not written on a whiteboard.</p>
+<p>And what is the most important thing in the all machine learning? Of course, it is data. So…I have got an idea.</p>
+<section id="the-task" class="level2">
+<h2 class="anchored" data-anchor-id="the-task">The task</h2>
+<p>On the day of my course I have delivered some (quick) talk on the deep learning, and we proceeded to the computer class. The students got the link to the Google Colab with <a href="https://docs.fast.ai">fastai</a> working example of training image classification model. No coding is required, but they are free to do it if they want, e.g.&nbsp;to explore various CNN/ViT architectures etc. The task is the following:</p>
+<p>You have to train a two-way image classification model.</p>
+<p>Class 1 is “Beer” – hardly can be more Czech than this. <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Pilsner_urquell_mug.jpg" class="img-fluid" alt="Beer. Taken from Wiki – Author: Steven Walling – Vlastní dílo, CC BY-SA 4.0"></p>
+<p>Class 2 is “Trdelnik” or “Chimney cake” as someone translates this into English – tourist-trap pastry, not a traditional at all, but sold everywhere in Prague. I actually like it - what can be wrong about dough + sugar, right? <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Trdelník-Basket-20101.JPG/960px-Trdelník-Basket-20101.JPG" class="img-fluid" alt="Trdelnik. Taken from Wiki – Autor: Tamorlan – Vlastní dílo, CC BY-SA 3.0"></p>
+<p>Your job is to produce the model, which is as good as possible. You may write a google search scrapper, look for the ready datasets, draw images yourself, generate synthetic data – I do not care. You can use ImageNet-pretrained models, or anything else.</p>
+<p>When you think, you are done, you call me. I came to your desk, download the test set from my super secret website, and we benchmark it together (but nobody else can see the images).</p>
+<p>The leadearboard with the best score is written on the physical whiteboard in the class. The leaderboard is initalized with two entries: 0% – best result so far.</p>
+<p>The person, whos model performs the best, wins.</p>
+</section>
+<section id="what-is-the-catch" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-catch">What is the catch?</h2>
+<p>The next hour or so, people were constructing their datasets. Most advanced ones even created their validation sets. When the accuracy on the validation set reached 98%, someone got enough confidence and called me.</p>
+<p>We did a benchmark and the result was 28.5% accuracy. The class giggled a bit. Next 20 minutes nobody could cross this line. The random chance would do better than any of the models. The finally new breakthrough came - 42%. People started to realise the task was not as easy as they thought.</p>
+<p>Next hour people finally got 57%. The class was giggling and laughing with every trial – the number on the leaderboard was unchanging. Finally someone used CLIP model and got astounishing 71%.</p>
+</section>
+<section id="the-catch-is-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-catch-is-the-data">The catch is the data</h2>
+<p>What do you usually imagine, when someone says “beer”? Maybe a nice glass of pilsner or IPA. Or maybe a bottle. Rarely a can. What do you imagine, when you hear trdelnik? Probably nothing, unless you live in Prague or visit the city. Then you see that special fire cage, where the pastry is done.</p>
+<p>So, I have selected the can beer, the beer near the fire-pit for barbeque, Duff from The Simpsons, and top-down view of the beer glasses near the shashlyck for the Beer class. For the Trdelnik I selected close-up view with a toppings – not popular at that time yet – similar to the beer foam, and the kiosk selling the trdelnik. Finally, to make people less sad, I have found the image, which contains both, so any answer would be correct. Here is my test set in full:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blog.dmytro.ai/posts/images/bt/bt.JPG" class="img-fluid figure-img"></p>
+<figcaption>Test dataset: 7 images</figcaption>
+</figure>
+</div>
+<p>I have also create another test set with similar ideas of naturally adversarial examples – for those, who wanted to try again. It was a bit simpler, but also challenging.</p>
+</section>
+<section id="everything-good-comes-to-an-end" class="level2">
+<h2 class="anchored" data-anchor-id="everything-good-comes-to-an-end">Everything good comes to an end</h2>
+<p>This trick worked for couple more years – and then VLMs came. I have tested PaliGemma on my tiny dataset – and it gave me 85% accuracy out of the box. Time to invent something new.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>computer vision</category>
+  <category>research</category>
+  <category>teaching</category>
+  <category>AI</category>
+  <guid>https://blog.dmytro.ai/posts/2025-12-23-Beer-or-trdelnik-data-tale.html</guid>
+  <pubDate>Mon, 22 Dec 2025 23:00:00 GMT</pubDate>
+  <media:content url="https://blog.dmytro.ai/posts/images/beer-trdelnik.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>How ChatGPT fared in computer vision course homeworks at CTU in Prague</title>
+  <link>https://blog.dmytro.ai/posts/2025-09-17-chatGPT-as-a-student.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="coding-assignments-in-chatgptcursor-era" class="level1">
+<h1>Coding assignments in ChatGPT/Cursor era</h1>
+<p>In the era of SWE-bench and various arenas for LLMs, the question “can LLMs code?” is obsolete. Of course, they can and I personally use ChatGPT and Sonnet4 daily. They are good.</p>
+<p>Now, the real question is – if the LLMs are so good, why students are struggling with coding assignments for computer vision course every year? Does Chat have any problem with coding the gaussian blur? Are students very honest and not using it at all? Are they using LLMs, but something is wrong?</p>
+<p>Those are the questions, which I have tried to answer last semester.</p>
+<section id="what-is-part-of-the-course-about-image-matching" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-part-of-the-course-about-image-matching">What is (part of) the course about? Image matching</h3>
+<p>I do the lectures and labs on the image matching part of the computer vision. During the series of 5 assignments, students have to implement:</p>
+<ol type="1">
+<li>Gaussian blurring and patch extraction</li>
+<li>(Multiscale) Harris corner detector</li>
+<li>SIFT descriptor and patch dominant orientation estimation</li>
+<li>SNN matching and homography RANSAC</li>
+<li>Assemble altogether into image matching pipeline.</li>
+</ol>
+<p>Students have got the <a href="https://cw.fel.cvut.cz/wiki/courses/mpv/start">lectures with a theory</a>, <a href="https://cw.fel.cvut.cz/wiki/courses/mpv/labs/2_correspondence_problem/start">course wiki with task descriptions</a> and <a href="https://github.com/ducha-aiki/mpv-templates-backup">assignment templates</a> with API of the functions they have to implement. Most of the assignments are evaluated automatically by unit-tests and benchmarks on university server.</p>
+<p>In the end, result should look like this (the widgets are provided with templates). <img src="https://blog.dmytro.ai/posts/2025-09-17-ChatGPT-as-a-student_files/figure-html/cell-1-1-image-2.png" class="img-fluid" alt="image-2.png"></p>
+</section>
+<section id="how-to-test-llms-for-this" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-test-llms-for-this">How to test LLMs for this?</h3>
+<p>Obviously, there are many possible ways of doing it. I have selected the following: I copy-paste 3 verbatims in a single message. The structure is :</p>
+<ul>
+<li>Please, implement {<code>ASSIGNMENT-DESCRIPTION</code>}</li>
+<li>{<code>ALL-ASSIGNMENT-RELATED-PAGE</code>}</li>
+<li>Code template: {<code>TEMPLATE.PY</code>}</li>
+</ul>
+<p>This would be (almost) fair to an LLM, as it would have the same information, as the student, except the images. It also would imitate a prompt from a reasonable, but lazy student.</p>
+<p>An real (shortened) example would be:</p>
+<section id="example-prompt" class="level4">
+<h4 class="anchored" data-anchor-id="example-prompt">Example prompt</h4>
+<pre><code>Please, implement imagefiltering.py - file with the following methods implemented:
+gaussian1d, gaussian_deriv1d - functions for computing Gaussian function and its first derivative.
+</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://blog.dmytro.ai/posts/2025-09-17-ChatGPT-as-a-student_files/figure-html/cell-1-2-image-4.png" class="img-fluid figure-img"></p>
+<figcaption>image-4.png</figcaption>
+</figure>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb2-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> math</span>
+<span id="cb2-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb2-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch.nn.functional <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> F</span>
+<span id="cb2-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> typing</span>
+<span id="cb2-6"></span>
+<span id="cb2-7"></span>
+<span id="cb2-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_gausskernel_size(sigma, force_odd <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>):</span>
+<span id="cb2-9">    ksize <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> math.ceil(sigma <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.0</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb2-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> ksize <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">and</span> force_odd:</span>
+<span id="cb2-11">        ksize <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb2-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(ksize)</span>
+<span id="cb2-13"></span>
+<span id="cb2-14"></span>
+<span id="cb2-15"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> gaussian1d(x: torch.Tensor, sigma: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> torch.Tensor: </span>
+<span id="cb2-16">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">'''Function that computes values of a (1D) Gaussian with zero mean and variance sigma^2'''</span></span>
+<span id="cb2-17">    out <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>  torch.zeros(x.shape)</span>
+<span id="cb2-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> out</span>
+<span id="cb2-19"></span>
+<span id="cb2-20"></span>
+<span id="cb2-21"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> gaussian_deriv1d(x: torch.Tensor, sigma: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> torch.Tensor:  </span>
+<span id="cb2-22">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">'''Function that computes values of a (1D) Gaussian derivative'''</span></span>
+<span id="cb2-23">    out <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>  torch.zeros(x.shape)</span>
+<span id="cb2-24">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> out</span></code></pre></div>
+</section>
+</section>
+<section id="evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation">Evaluation</h2>
+<p>During the course of the semester, I have prompted the <strong>4o</strong>, <strong>o3mini</strong>, <strong>o3 mini-hight</strong>, and <strong>o1</strong> OpenAI models the same way, saved the <code>.py</code> file and uploaded it to the automatic evaluation system. When the current assignment required the functions from the previous weeks, I imported the ground truth solution – assuming that the students could perfect them via multiple attempts (we allow up to ~50 attempts to reupload homework).</p>
+<p>Here are the results (I added GPT5 later):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 3%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 3%">
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model/task</th>
+<th style="text-align: right;">4o</th>
+<th style="text-align: center;">o3-mini</th>
+<th style="text-align: center;">o3-mini-high</th>
+<th style="text-align: center;">o1</th>
+<th style="text-align: center;">GPT5-Instant</th>
+<th style="text-align: center;">GPT5-Thinking</th>
+<th style="text-align: center;">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Image filtering</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: center;"><strong>7</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Harris detector</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>7</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SIFT descriptor</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;"><strong>4</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Matching and RANSAC</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>8</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>8</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total points</strong></td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;"><strong>24</strong></td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;"><strong>26</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Percentage [%]</strong></td>
+<td style="text-align: right;">46</td>
+<td style="text-align: center;">81</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">81</td>
+<td style="text-align: center;"><strong>92</strong></td>
+<td style="text-align: center;">77</td>
+<td style="text-align: center;"><strong>100</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Overall, LLMs did better, than an average student on their first attempt. If prompted with scores and errors, they were pretty good at fixing their mistakes. This makes me wonder, why people, who obviously used LLM for their assignment still struggle to get high scores. And those, who get the highest scores are mostly NOT using LLMs, given the style and the iterations required to get to the answer.</p>
+<p>Funny enough, the tasks, which students usually struggle with, gave LLMs hard times as well.</p>
+<p>For example, almost everyone missed the following sentence about strict maximum in the <code>nms2d</code> function description.</p>
+<pre><code> (i.e. take to consideration all 8 points in the 3×3 neigborhood and output non-zero only if the center is strictly larger than the neighborhood)</code></pre>
+<p>Two of the tasks are actually benchmark based – patch orientation datection, and SIFT patch descriptor. Here are the results:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 6%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Benchmark/model</th>
+<th style="text-align: center;">4o</th>
+<th style="text-align: center;">o3-mini</th>
+<th style="text-align: center;">o3-mini-high</th>
+<th style="text-align: center;">o1</th>
+<th style="text-align: center;">GPT5-Instant</th>
+<th style="text-align: center;">GPT5-Thinking</th>
+<th style="text-align: center;">Reference Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ang. Error [deg]</td>
+<td style="text-align: center;">fail</td>
+<td style="text-align: center;">12.30</td>
+<td style="text-align: center;">timeout</td>
+<td style="text-align: center;">22.10</td>
+<td style="text-align: center;">14.1</td>
+<td style="text-align: center;"><strong>4.20</strong></td>
+<td style="text-align: center;"><strong>1.1</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SIFT mAP [%]</td>
+<td style="text-align: center;">fail</td>
+<td style="text-align: center;">64.8</td>
+<td style="text-align: center;">timeout</td>
+<td style="text-align: center;">fail</td>
+<td style="text-align: center;">68.4</td>
+<td style="text-align: center;"><strong>73</strong></td>
+<td style="text-align: center;">71.7</td>
+</tr>
+</tbody>
+</table>
+<p>Originally I wanted to evaluate all CV tasks from our course – including retrieval, CNN training, tracking. However, dirung the semester, OpenAI has been updating and changing their models a couple of times, and I lost the motivation to redo the work.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion?</h2>
+<p>I believe, modern LLMs – even if in “single attempt” mode could easily ace university coding assignemnt. Even more so in “agentic” mode. Relying on ban for LLM usage is futile. Instead we should ask questions like - how do we teach people to do software engineering, and especially deep understanding of the algorithms in the ChatGPT era. The emphasis here on the understanding and the final result - good engineer, and not on the stupid things like “how can we prevent students from using LLMs”. We cannot.</p>
+<p>What is troubling to me, is when student could not get good results even with ChatGPT help.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>computer vision</category>
+  <category>research</category>
+  <category>teaching</category>
+  <category>AI</category>
+  <guid>https://blog.dmytro.ai/posts/2025-09-17-chatGPT-as-a-student.html</guid>
+  <pubDate>Tue, 16 Sep 2025 22:00:00 GMT</pubDate>
+  <media:content url="https://blog.dmytro.ai/posts/images/sift-gpt.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>How I cope with the flood of arXiv papers</title>
+  <link>https://blog.dmytro.ai/posts/2021-02-18-how-i-read-arxiv.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="i-dont" class="level1">
+<h1>I don’t</h1>
+<p>OK, that is a joke – I believe that I am dealing with the tons of papers rather fine. Here is how.</p>
+</section>
+<section id="how-and-where-to-look" class="level1">
+<h1>How and where to look?</h1>
+<ol type="1">
+<li><p><strong>Coarse-to-fine or Funnel</strong>. I <strong>check 100</strong> paper titles + abstracts, I <strong>skim through maybe 10</strong>, I <strong>read one or two</strong> papers carefully .</p></li>
+<li><p>“<strong>Features</strong>” I looks for: topic, theory/practice, figures quality, field crowdness, potential impact.</p></li>
+<li><p><strong>arXiv-sanity</strong> as a main provider and the other sources.</p></li>
+</ol>
+<section id="coarse-to-fine-scheme" class="level2">
+<h2 class="anchored" data-anchor-id="coarse-to-fine-scheme">Coarse-to-fine scheme</h2>
+<p>I check 100 paper titles + abstracts, I skim through maybe 10, I read carefully one or two papers. Why? The most of papers are not relevant to me as a computer vision researcher. Some of the papers are bad. From those, which are good, the most important thing is their main message, not some details. And only little number of papers are worth reading – for me. For you that would be different 1 or 2 papers out of 100, but likely not more.</p>
+</section>
+</section>
+<section id="questions-to-ask-yourself" class="level1">
+<h1>Questions to ask yourself</h1>
+<p>I will try to show what I am looking for and also a formulate for myself what is going on inside of my “wet neural network” when staring on arXiv-sanity page. I ask myself the following questions, and if the answer is “yes” on some of them, the paper is going to be downloaded. By “read” in this section I mean “skim through abstract, conclusions, tables and figures to decide”.</p>
+<ul>
+<li><strong>My areas? Yes -&gt; read</strong>.</li>
+</ul>
+<p><a href="https://ducha-aiki.github.io/wide-baseline-stereo-blog/">WxBS (image matching)</a>, 3d reconstruction, image retrieval, metric learning, RANSAC, CNN initialization.</p>
+<ul>
+<li><strong>Opens a new (sub-)area of research? Yes -&gt; read</strong>.</li>
+</ul>
+<p>E.g. first papers on GAN, NERF, Transformers, Lottery ticket hypothesis. It does not matter if the area is not relevant for me, e.g.&nbsp;image-to-image translation. New area papers are always worth to read.</p>
+<ul>
+<li><strong>From the crowded area? Yes -&gt; skip</strong>.</li>
+</ul>
+<p>How many papers on the topic are published every day? E.g., in 2014-2015 I have followed the research on semantic segmentation, object detection and GANs. Now I mostly skip all the papers related to GAN, segmenation and so on, because the improvements become incremental AND that areas are not mine. Ofc, from time to time I read some paper on GAN, but only if it comes by other channel - e.g.&nbsp;recommended to me by a colleague.</p>
+<p>Two previous points can be seen as an <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">idf</a> – paper score normalization by average number of the papers on the topic.</p>
+<ul>
+<li><strong>Dataset or large-scale benchmark paper? Yes -&gt; read</strong>, regargless of the topic.</li>
+</ul>
+<p>Why? It is useful to see how people gather data, clean the data, come up with a metrics and so on.</p>
+<ul>
+<li><p><strong>Simple baseline? Yes -&gt; read</strong>, regadless of the area.</p></li>
+<li><p>About <strong>understanding some aspect of machine learning? Yes -&gt; read if have time</strong></p></li>
+</ul>
+<p>E.g. padding, double descent, over-parametrization.</p>
+<ul>
+<li><p><strong>Theory paper? Yes -&gt; skip.</strong> Unless it touches very important topic for me.</p></li>
+<li><p><strong>Relevant for me as a user? Yes -&gt; read if have time</strong>.</p></li>
+</ul>
+<p>E.g. new non-linearity, optimizer, etc.</p>
+<ul>
+<li><strong>Am I a reviewer of that paper? If yes -&gt; bad luck</strong>.</li>
+</ul>
+<p>I have to really read this paper several times regardless of anything.</p>
+<p>In addition, I use some kind of “paper gestalt” – does it looks as high quality work? Isn’t the title over-keyworded and so on – this kind of things are hard to verbalize.</p>
+</section>
+<section id="use-arxiv-sanity-not-arxiv-feed" class="level1">
+<h1>Use arXiv-sanity, not arXiv feed</h1>
+<p>First, given the over-whelming popularity of this site, sometimes it is down. That is good - if it is down, then I do not check papers today. Nothing bad would happen is I skip paper reading today.</p>
+<p>Second, it shows first 8 pages thumbnails and the abstracts. This helps to make a more informed decision on whether to download the paper or not.</p>
+<section id="additional-filtered-sources-of-papers" class="level3">
+<h3 class="anchored" data-anchor-id="additional-filtered-sources-of-papers">Additional (filtered) sources of papers</h3>
+<ol type="1">
+<li><p>Twitter feed. My twitter is very curated – if someone tweets about the paper, it is going to be relevant</p></li>
+<li><p>ResearchGate “You have a new citation of”. That is mostly the way how I find about the papers, which use <a href="https://github.com/kornia/kornia">kornia</a>, to be promoted on <a href="https://twitter.com/kornia_foss">kornia twitter</a></p></li>
+<li><p>Google Scholar recommendations. They are slow: appear a week after the ResearchGate shows me the paper. But – Google Scholar recommendations cover the papers, which are not on arXiv. Thanks to university access, I am able to download the most of them, although not all.</p></li>
+</ol>
+<p>That’s all. Hope this helps :)</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>arXiv</category>
+  <category>research</category>
+  <category>preprints</category>
+  <guid>https://blog.dmytro.ai/posts/2021-02-18-how-i-read-arxiv.html</guid>
+  <pubDate>Wed, 17 Feb 2021 23:00:00 GMT</pubDate>
+  <media:content url="https://blog.dmytro.ai/posts/images/arxiv-sanity-small.jpg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>

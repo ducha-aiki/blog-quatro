@@ -1,0 +1,17 @@
+# Dmytro's Blog
+
+> Computer vision, image matching, deep learning and academic life — notes by Dmytro Mishkin, PhD.
+
+Written by Dmytro Mishkin, PhD — computer vision researcher and consultant,
+maintainer of the Kornia library. Full CV, publications and talks: https://dmytro.ai
+
+## Posts
+
+- [AI: Enabling, Productivity and Mental Health](https://blog.dmytro.ai/posts/2026-08-12-ai-enablement-productivity-mental-health.html): What changed in 3 years?
+- [Beer or Trdelnik or The Tale of Data in Computer Vision](https://blog.dmytro.ai/posts/2025-12-23-Beer-or-trdelnik-data-tale.html): Some fun for the Vision and Sport Summer School
+- [How ChatGPT fared in computer vision course homeworks at CTU in Prague](https://blog.dmytro.ai/posts/2025-09-17-chatGPT-as-a-student.html): Better than average human?
+- [How I cope with the flood of arXiv papers](https://blog.dmytro.ai/posts/2021-02-18-how-i-read-arxiv.html): hope, that it could help you as well
+
+## Optional
+
+- [About](https://blog.dmytro.ai/about.html): Dmytro Mishkin, PhD — computer vision researcher and consultant, Kornia maintainer, author of HardNet, AffNet and LSUV initialization.

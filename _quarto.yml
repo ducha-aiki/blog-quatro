@@ -1,21 +1,34 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - robots.txt
+  post-render:
+    - scripts/postprocess.py
 
 website:
   google-analytics: "G-Y4BPJM0CQX"
   title: "Dmytro's Blog"
+  site-url: "https://blog.dmytro.ai"
+  description: "Computer vision, image matching, deep learning and academic life — notes by Dmytro Mishkin, PhD."
+  favicon: images/favicon.png
+  open-graph: true
+  twitter-card:
+    site: "@ducha_aiki"
+    creator: "@ducha_aiki"
+    card-style: summary_large_image
   navbar:
     right:
       - about.qmd
+      - text: "dmytro.ai"
+        href: https://dmytro.ai
       - icon: github
         href: https://github.com/ducha-aiki
       - icon: twitter
         href: https://x.com/ducha_aiki
+      - icon: rss
+        href: index.xml
 format:
   html:
     theme: cosmo
     css: styles.css
-
-
-
