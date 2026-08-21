@@ -1,5 +1,7 @@
 ---
 title: "Dmytro's Blog"
+pagetitle: "Dmytro's Blog — Computer Vision & Deep Learning Notes"
+title-prefix: ""
 subtitle: "Computer vision, image matching, deep learning, and academic life"
 description: "Notes on computer vision, image matching, deep learning and research by Dmytro Mishkin, PhD — co-author of Kornia, HardNet and AffNet."
 image: profile.jpg
